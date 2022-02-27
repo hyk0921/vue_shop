@@ -40,6 +40,7 @@
       height 50px
       display flex
       width 100%
+      background #fff
       .guide-item 
         width 25%
         display flex
