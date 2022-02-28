@@ -13,9 +13,8 @@ import {reqAddress} from "@/api"
     components:{
       FootGuide
     },
-   async mounted() {
-      const result = await reqAddress(116.36867,40.10038)
-      console.log(result);
+    mounted() {
+      this.$store.dispatch("getAddress")
     }
    
   }
