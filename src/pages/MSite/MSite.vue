@@ -2,10 +2,10 @@
   <section class="msite">
       <!--首页头部-->
     <Header title="郑州">
-      <span class="header_search" >
+      <span class="header_search" slot="left" >
           <i class="iconfont icon-sousuo"></i>
         </span>
-        <span class="header_login">
+        <span class="header_login" slot="right">
           <span class="header_login_text">登录|注册</span>
         </span>
     </Header>
@@ -309,7 +309,17 @@
 </template>
 
 <script type="text/ecmascript-6">
+import Swiper from "swiper/js/swiper"
+import "swiper/css/swiper.css"
   export default {
+    mounted(){
+      new Swiper(".swiper-container",{
+          loop: true, 
+          pagination: {
+              el: '.swiper-pagination',
+            },
+      })
+    }
   }
 </script>
 

@@ -12,7 +12,7 @@
           <span><i class="iconfont icon-dingdan"></i></span>
           <span>订单</span>
       </div>
-      <div class="guide-item" :class="{on:$route.path === '/profile'}"@click="goto('/profile')">
+      <div class="guide-item" :class="{on:$route.path === '/profile'}" @click="goto('/profile')">
           <span><i class="iconfont icon-geren"></i></span>
           <span>个人</span>
       </div>
@@ -24,7 +24,11 @@
       name:'FootGuide',
       methods:{
           goto(path){
-              this.$router.replace(path)
+              if(path!==this.$route.path){
+                this.$router.replace(path)
+              }else {
+                window.location.href = path
+              }
           }
       }
   }
