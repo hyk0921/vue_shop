@@ -7,7 +7,6 @@
 
 <script type="text/ecmascript-6">
 import FootGuide from "@/components/FootGuide/FootGuide.vue"
-import {reqAddress} from "@/api"
   export default {
     name:'App',
     components:{
