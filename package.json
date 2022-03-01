@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "axios": "^0.26.0",
-    "babel-plugin-component": "^1.1.1",
     "core-js": "^3.6.5",
+    "mint-ui": "^2.2.13",
     "swiper": "5.0.3",
     "vue": "^2.6.11",
     "vue-router": "3",
@@ -21,6 +21,7 @@
     "@vue/cli-plugin-eslint": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-component": "^1.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "lib-flexible": "^0.3.2",

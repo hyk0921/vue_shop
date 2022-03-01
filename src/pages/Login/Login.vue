@@ -4,16 +4,16 @@
         <div class="login_header">
           <h2 class="login_logo">硅谷外卖</h2>
           <div class="login_header_title">
-            <a href="javascript:;" class="on">短信登录</a>
-            <a href="javascript:;">密码登录</a>
+            <a href="javascript:;" :class="{on:isShowSsm}" @click="isShowSsm = true">短信登录</a>
+            <a href="javascript:;" :class="{on:!isShowSsm}" @click="isShowSsm = false">密码登录</a>
           </div>
         </div>
         <div class="login_content">
           <form>
-            <div class="on">
+            <div :class="{on:isShowSsm}">
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机号">
-                <button disabled="disabled" class="get_verification">获取验证码</button>
+                <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
+                <button :disabled="!isRightphone" class="get_verification" :class="{right_phone_number:isRightphone}">获取验证码</button>
               </section>
               <section class="login_verification">
                 <input type="tel" maxlength="8" placeholder="验证码">
@@ -23,16 +23,16 @@
                 <a href="javascript:;">《用户服务协议》</a>
               </section>
             </div>
-            <div>
+            <div :class="{on:!isShowSsm}">
               <section>
                 <section class="login_message">
                   <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
                 </section>
                 <section class="login_verification">
-                  <input type="tel" maxlength="8" placeholder="密码">
-                  <div class="switch_button off">
-                    <div class="switch_circle"></div>
-                    <span class="switch_text">...</span>
+                  <input :type="isShowPwd? 'text':'password'" maxlength="8" placeholder="密码">
+                  <div class="switch_button " :class="isShowPwd? 'on':'off'">
+                    <div class="switch_circle" :class="{right:isShowPwd}" @click="isShowPwd = !isShowPwd"></div>
+                    <span class="switch_text">{{isShowPwd?"abc":""}}</span>
                   </div>
                 </section>
                 <section class="login_message">
@@ -45,8 +45,8 @@
           </form>
           <a href="javascript:;" class="about_us">关于我们</a>
         </div>
-        <a href="javascript:" class="go_back">
-          <i class="iconfont icon-jiantou2"></i>
+        <a href="javascript:" class="go_back" @click="$router.back()">
+          <i class="iconfont icon-zuojiantou"></i>
         </a>
       </div>
     </section>
@@ -54,6 +54,19 @@
 
 <script type="text/ecmascript-6">
   export default {
+    name:"Login",
+    data(){
+      return {
+        isShowSsm:true,
+        phone:'',
+        isShowPwd:false
+      }
+    },
+    computed:{
+      isRightphone(){
+        return /^1\d{10}$/.test(this.phone)
+      }
+    }
   }
 </script>
 
@@ -118,6 +131,8 @@
                 color #ccc
                 font-size 14px
                 background transparent
+                &.right_phone_number
+                  color #000
             .login_verification
               position relative
               margin-top 16px
@@ -157,6 +172,8 @@
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
+                  &.right
+                    transform translateX(27px)
             .login_hint
               margin-top 12px
               color #999
@@ -189,6 +206,6 @@
         width 30px
         height 30px
         >.iconfont
-          font-size 20px
+          font-size 28px
           color #999
 </style>

@@ -12,7 +12,7 @@
     <!--首页导航-->
     <nav class="msite_nav">
       <div class="swiper-container">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper" v-if="categorys.length>0">
           <div class="swiper-slide" v-for="(cs,index) in categorysArr" :key="index">
             <a href="javascript:" class="link_to_food" v-for="(c,index) in cs" :key="index">
               <div class="food_container">
@@ -21,6 +21,9 @@
               <span>{{c.title}}</span>
             </a>
           </div>
+        </div>
+        <div v-else> 
+          <img src="./images/msite_back.svg" alt="loading">
         </div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
@@ -78,10 +81,10 @@
           </li>
         </ul>
         <ul v-else>
-          <li><img src="./images/shop_back.svg" alt=""></li>
-          <li><img src="./images/shop_back.svg" alt=""></li>
-          <li><img src="./images/shop_back.svg" alt=""></li>
-          <li><img src="./images/shop_back.svg" alt=""></li>
+          <li><img src="./images/shop_back.svg" alt="loading"></li>
+          <li><img src="./images/shop_back.svg" alt="loading"></li>
+          <li><img src="./images/shop_back.svg" alt="loading"></li>
+          <li><img src="./images/shop_back.svg" alt="loading"></li>
         </ul>
       </div>
     </div>
