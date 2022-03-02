@@ -12,36 +12,43 @@
           <form>
             <div :class="{on:isShowSsm}">
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
-                <button :disabled="!isRightphone" class="get_verification" :class="{right_phone_number:isRightphone}">获取验证码</button>
+                <input type="tel" maxlength="11" placeholder="手机号" name="phone" v-model="phone" v-validate="'required|mobile'" ref="input1" @click="inputClick('input1')">
+                <button :disabled="!isRightphone || computeTime>0" class="get_verification" :class="{right_phone_number:isRightphone}" @click.prevent="sendCode">{{computeTime > 0 ? `短信已发送${computeTime}s`:'发送验证码'}}</button>
+                 <span style="color: red;" v-show="errors.has('phone')">{{ errors.first('phone') }}</span>
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="验证码">
+                <input type="tel" maxlength="8" placeholder="验证码" v-model="code" name="code" v-validate="{required: true,regex: /^\d{6}$/}" ref="input2" @click="inputClick('input2')">
+                <span style="color: red;" v-show="errors.has('code')">{{ errors.first('code') }}</span>
               </section>
               <section class="login_hint">
-                温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
+                温馨提示：未注册蜂鸟外卖帐号的手机号，登录时将自动注册，且代表已同意
                 <a href="javascript:;">《用户服务协议》</a>
               </section>
             </div>
             <div :class="{on:!isShowSsm}">
               <section>
                 <section class="login_message">
-                  <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                  <input type="tel" maxlength="11" placeholder="用户名"  v-model="name" name="name" v-validate="'required'" ref="input3" @click="inputClick('input3')">
+                   <span style="color: red;" v-show="errors.has('name')">{{ errors.first('name') }}</span>
                 </section>
                 <section class="login_verification">
-                  <input :type="isShowPwd? 'text':'password'" maxlength="8" placeholder="密码">
+                  <input :type="isShowPwd? 'text':'password'" maxlength="8" placeholder="密码" ref="input4" 
+                  @click="inputClick('input4')" v-model="pwd" name="pwd" v-validate="'required'">
                   <div class="switch_button " :class="isShowPwd? 'on':'off'">
                     <div class="switch_circle" :class="{right:isShowPwd}" @click="isShowPwd = !isShowPwd"></div>
                     <span class="switch_text">{{isShowPwd?"abc":""}}</span>
                   </div>
+                  <span style="color: red;" v-show="errors.has('pwd')">{{ errors.first('pwd') }}</span>
                 </section>
                 <section class="login_message">
-                  <input type="text" maxlength="11" placeholder="验证码">
+                  <input type="text" maxlength="11" placeholder="验证码" ref="input5"
+                   @click="inputClick('input5')" v-model="captcha" name="captcha" v-validate="{required: true,regex: /^[0-9a-zA-Z]{4}$/}">
                   <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                  <span style="color: red;" v-show="errors.has('captcha')">{{ errors.first('captcha') }}</span>
                 </section>
               </section>
             </div>
-            <button class="login_submit">登录</button>
+            <button class="login_submit" @click.prevent="login">登录</button>
           </form>
           <a href="javascript:;" class="about_us">关于我们</a>
         </div>
@@ -59,12 +66,47 @@
       return {
         isShowSsm:true,
         phone:'',
+        code: '',
+        name: '',
+        pwd: '',
+        captcha: '',
+        computeTime:0,
         isShowPwd:false
       }
     },
     computed:{
       isRightphone(){
         return /^1\d{10}$/.test(this.phone)
+      }
+    },
+    methods:{
+      inputClick(ele){
+        this.$nextTick(()=>{
+          this.$refs[ele].focus()
+        })
+      },
+      sendCode(){
+        this.computeTime = 10
+        const intervalId = setInterval(() => {
+          this.computeTime--
+          if(this.computeTime === 0){
+            clearInterval(intervalId)
+          }
+        }, 1000);
+      },
+      async login () {
+        // 进行前台表单验证
+        let names
+        if (this.isShowSsm) {
+          names = ['phone', 'code']
+        } else {
+          names = ['name', 'pwd', 'captcha']
+        }
+
+        const success = await this.$validator.validateAll(names) 
+        if(success){
+          alert("发送登录请求")
+        }
       }
     }
   }

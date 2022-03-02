@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import 'lib-flexible'
+import './validate'
 
 Vue.config.productionTip = false
 import router from "@/router"

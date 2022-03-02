@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="http://at.alicdn.com/t/font_3207983_tq4w8yndwcq.css">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script src="https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js"></script>
+    <style>
+      * {
+        touch-action: pan-y;
+      }
+    </style>
     <script>
       if ('addEventListener' in document) {
         document.addEventListener('DOMContentLoaded', function() {
