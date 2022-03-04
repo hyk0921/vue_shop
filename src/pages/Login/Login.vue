@@ -4,13 +4,13 @@
         <div class="login_header">
           <h2 class="login_logo">硅谷外卖</h2>
           <div class="login_header_title">
-            <a href="javascript:;" :class="{on:isShowSsm}" @click="isShowSsm = true">短信登录</a>
-            <a href="javascript:;" :class="{on:!isShowSsm}" @click="isShowSsm = false">密码登录</a>
+            <a href="javascript:;" :class="{on:isShowSms}" @click="isShowSms = true">短信登录</a>
+            <a href="javascript:;" :class="{on:!isShowSms}" @click="isShowSms = false">密码登录</a>
           </div>
         </div>
         <div class="login_content">
           <form>
-            <div :class="{on:isShowSsm}">
+            <div :class="{on:isShowSms}">
               <section class="login_message">
                 <input type="tel" maxlength="11" placeholder="手机号" name="phone" v-model="phone" v-validate="'required|mobile'" ref="input1" @click="inputClick('input1')">
                 <button :disabled="!isRightphone || computeTime>0" class="get_verification" :class="{right_phone_number:isRightphone}" @click.prevent="sendCode">{{computeTime > 0 ? `短信已发送${computeTime}s`:'发送验证码'}}</button>
@@ -25,7 +25,7 @@
                 <a href="javascript:;">《用户服务协议》</a>
               </section>
             </div>
-            <div :class="{on:!isShowSsm}">
+            <div :class="{on:!isShowSms}">
               <section>
                 <section class="login_message">
                   <input type="tel" maxlength="11" placeholder="用户名"  v-model="name" name="name" v-validate="'required'" ref="input3" @click="inputClick('input3')">
@@ -43,7 +43,8 @@
                 <section class="login_message">
                   <input type="text" maxlength="11" placeholder="验证码" ref="input5"
                    @click="inputClick('input5')" v-model="captcha" name="captcha" v-validate="{required: true,regex: /^[0-9a-zA-Z]{4}$/}">
-                  <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                  <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha" ref="captcha"
+                  @click="updateCaptcha">
                   <span style="color: red;" v-show="errors.has('captcha')">{{ errors.first('captcha') }}</span>
                 </section>
               </section>
@@ -60,18 +61,21 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {Toast,MessageBox} from "mint-ui"
+import {reqSendCode, reqPwdLogin, reqSmsLogin} from '../../api'
   export default {
     name:"Login",
     data(){
       return {
-        isShowSsm:true,
+        isShowSms:true,
         phone:'',
         code: '',
         name: '',
         pwd: '',
         captcha: '',
         computeTime:0,
-        isShowPwd:false
+        isShowPwd:false,
+        flag : true //节流
       }
     },
     computed:{
@@ -85,7 +89,7 @@
           this.$refs[ele].focus()
         })
       },
-      sendCode(){
+     async sendCode(){
         this.computeTime = 10
         const intervalId = setInterval(() => {
           this.computeTime--
@@ -93,20 +97,58 @@
             clearInterval(intervalId)
           }
         }, 1000);
+        const result =await this.$API.reqSendCode(this.phone)
+        if(result.code === 0){
+          Toast('短信发送成功!')
+        }else {
+          this.computeTime = 0
+          MessageBox('提示', result.msg || "发送失败");
+        }
       },
       async login () {
         // 进行前台表单验证
         let names
-        if (this.isShowSsm) {
+        if (this.isShowSms) {
           names = ['phone', 'code']
         } else {
           names = ['name', 'pwd', 'captcha']
         }
 
         const success = await this.$validator.validateAll(names) 
+        let result
         if(success){
-          alert("发送登录请求")
+          const {phone,code,pwd,name,captcha} = this
+          if(this.isShowSms){
+            result = await this.$API.reqSmsLogin({phone,code})
+            this.computeTime = 0
+          }else{
+            result = await this.$API.reqPwdLogin({name,pwd,captcha})
+            if (result.code!==0) { // 登陆失败了
+              this.updateCaptcha() // 更新图形验证码
+              this.captcha = ''
+            }
+          }
+          // 根据请求的结果进行处理
+          if (result.code===0) { // 登陆请求成功
+            const user = result.data
+            // 保存user到state
+            this.$store.dispatch('saveUser', user)
+            // 跳转到个人中心
+            this.$router.replace({path:"/profile"})
+          } else { // 登陆请求失败
+            MessageBox.alert(result.msg)
+          }
         }
+      },
+      updateCaptcha(){
+        if(this.flag){
+          this.$refs.captcha.src = "http://localhost:4000/captcha?name="+Date.now() 
+          this.flag = false
+          setTimeout(() => {
+            this.flag = true
+          }, 1000);
+        }
+         
       }
     }
   }

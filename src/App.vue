@@ -13,7 +13,8 @@ import FootGuide from "@/components/FootGuide/FootGuide.vue"
       FootGuide
     },
     mounted() {
-      this.$store.dispatch("getAddress")
+      this.$store.dispatch("getAddress"),
+      this.$store.dispatch("autoLogin")
     }
    
   }

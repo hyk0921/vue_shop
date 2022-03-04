@@ -1,5 +1,5 @@
-import { reqAddress,reqShops,reqCategorys } from "../api"
-import { RECEIVE_ADDRESS,RECEIVE_SHOPS,RECEIVE_CATEGORYS } from "./mutations-types"
+import { reqAddress,reqShops,reqCategorys,reqAutoLogin } from "../api"
+import { RECEIVE_ADDRESS,RECEIVE_SHOPS,RECEIVE_CATEGORYS,RECEIVE_TOKEN,RECEIVE_USER } from "./mutations-types"
 export default {
     async getAddress({commit,state}){
         const {longitude,latitude} = state
@@ -24,4 +24,20 @@ export default {
             commit(RECEIVE_CATEGORYS,categorys)
         }
     },
+    saveUser({commit},user){
+        commit(RECEIVE_USER,user)
+        const token = user.token
+        localStorage.setItem('token_key',token)
+        delete user.token
+        commit(RECEIVE_TOKEN,token)
+    },
+    async autoLogin({commit,state}){
+        if(state.token && !state.user._id){
+            const result = await reqAutoLogin()
+            if(result.code === 0){
+                const user = result.data
+                commit(RECEIVE_USER,user)
+            }
+        }
+    }
 }
