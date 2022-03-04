@@ -49,9 +49,11 @@
                 </section>
               </section>
             </div>
-            <button class="login_submit" @click.prevent="login" >登录</button>
+            <button class="login_submit" @click.prevent="login" >{{$t('login_login')}}</button>
           </form>
-          <a href="javascript:;" class="about_us">关于我们</a>
+          <a href="javascript:;" class="about_us">{{$t('login_aboutUs')}}</a>
+          <br>
+        <button class="login_submit" @click.prevent="toggleLocale">切换语言</button>
         </div>
         <a href="javascript:" class="go_back" @click="$router.replace('/profile')">
           <i class="iconfont icon-zuojiantou"></i>
@@ -62,7 +64,7 @@
 
 <script type="text/ecmascript-6">
 import {Toast,MessageBox} from "mint-ui"
-import {reqSendCode, reqPwdLogin, reqSmsLogin} from '../../api'
+// import {reqSendCode, reqPwdLogin, reqSmsLogin} from '../../api'
   export default {
     name:"Login",
     data(){
@@ -148,7 +150,14 @@ import {reqSendCode, reqPwdLogin, reqSmsLogin} from '../../api'
             this.flag = true
           }, 1000);
         }
-         
+      },
+       toggleLocale () {
+        // 根据当前的locale确定新的locale
+        const locale = this.$i18n.locale === 'en' ? 'zh_CN' : 'en'
+        // 指定新的locale
+        this.$i18n.locale = locale
+        // 保存新的locale
+        localStorage.setItem('locale_key', locale)
       }
     }
   }

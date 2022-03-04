@@ -96,7 +96,7 @@ import chunk from "lodash/chunk";
       categorysArr(){
         const bigArr = []
         let smallArr = []
-        this.categorys.forEach((c,index)=>{
+        this.categorys.forEach((c)=>{
           
           if(smallArr.length === 0){
             bigArr.push(smallArr)

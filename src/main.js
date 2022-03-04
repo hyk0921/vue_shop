@@ -10,6 +10,7 @@ import Star from "@/components/Star/Star"
 import store from "@/vuex/store"
 import * as API from "@/api"
 import { Button } from 'mint-ui';
+import i18n from './i18n'
 
 Vue.component(Button.name, Button);
 Vue.prototype.$API = API
@@ -18,5 +19,6 @@ Vue.component("Star",Star)
 new Vue({
   render: h => h(App),
   router,
+  i18n,
   store
 }).$mount('#app')
