@@ -9,10 +9,10 @@ export default {
  [RECEIVE_CATEGORYS](state,categorys){
     state.categorys = categorys
  },
- [RECEIVE_TOKEN](state,token){
+ [RECEIVE_TOKEN](state,token=''){
     state.token = token
  },
- [RECEIVE_USER](state,user){
+ [RECEIVE_USER](state,user={}){
     state.user = user
  },
 }

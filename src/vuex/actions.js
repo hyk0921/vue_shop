@@ -39,5 +39,10 @@ export default {
                 commit(RECEIVE_USER,user)
             }
         }
+    },
+    logout({commit}){
+        localStorage.removeItem('token_key')
+        commit(RECEIVE_USER)
+        commit(RECEIVE_TOKEN)
     }
 }
