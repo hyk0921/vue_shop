@@ -1,5 +1,5 @@
-import { reqAddress,reqShops,reqCategorys,reqAutoLogin } from "../api"
-import { RECEIVE_ADDRESS,RECEIVE_SHOPS,RECEIVE_CATEGORYS,RECEIVE_TOKEN,RECEIVE_USER } from "./mutations-types"
+import { reqAddress,reqShops,reqCategorys,reqAutoLogin ,reqShopGoods,reqShopInfo,reqShopRatings} from "../api"
+import { RECEIVE_ADDRESS,RECEIVE_SHOPS,RECEIVE_CATEGORYS,RECEIVE_TOKEN,RECEIVE_USER ,RECEIVE_GOODS,RECEIVE_RATINGS,RECEIVE_INFO} from "./mutations-types"
 export default {
     async getAddress({commit,state}){
         const {longitude,latitude} = state
@@ -44,5 +44,26 @@ export default {
         localStorage.removeItem('token_key')
         commit(RECEIVE_USER)
         commit(RECEIVE_TOKEN)
+    },
+    async getShopGoods({commit}){
+        const result = await reqShopGoods()
+        if(result.code === 0) {
+            const goods = result.data
+            commit(RECEIVE_GOODS,goods)
+        }
+    },
+    async getShopRatings({commit}){
+        const result = await reqShopRatings()
+        if(result.code === 0) {
+            const ratings = result.data
+            commit(RECEIVE_RATINGS,ratings)
+        }
+    },
+    async getShopInfo({commit}){
+        const result = await reqShopInfo()
+        if(result.code === 0) {
+            const info = result.data
+            commit(RECEIVE_INFO,info)
+        }
     }
 }

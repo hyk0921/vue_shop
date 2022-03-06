@@ -5,5 +5,8 @@ export default {
     categorys:[],
     shops:[],
     user:{},
-    token:localStorage.getItem('token_key') || ''
+    token:localStorage.getItem('token_key') || '',
+    goods:[],
+    info:{},
+    ratings:[]
 }

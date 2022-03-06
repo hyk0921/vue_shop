@@ -11,6 +11,7 @@ import store from "@/vuex/store"
 import * as API from "@/api"
 import { Button } from 'mint-ui';
 import i18n from './i18n'
+import './mock/mockServe'
 
 Vue.component(Button.name, Button);
 Vue.prototype.$API = API
