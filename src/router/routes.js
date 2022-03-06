@@ -3,6 +3,11 @@ import Order from "@/pages/Order/Order"
 import Profile from "@/pages/Profile/Profile"
 import Search from "@/pages/Search/Search"
 import Login from "@/pages/Login/Login"
+import Shop from "@/pages/Shop/Shop"
+import Goods from "@/pages/Shop/Goods"
+import Ratings from "@/pages/Shop/Ratings"
+import Info from "@/pages/Shop/Info"
+
 export default [
     {
         path:'/msite',
@@ -27,6 +32,28 @@ export default [
     {
         path:'/login',
         component:Login
+    },
+    {
+        path:'/shop',
+        component:Shop,
+        children:[
+            {
+                path:'goods',
+                component:Goods
+            },
+            {
+                path:'ratings',
+                component:Ratings
+            },
+            {
+                path:'info',
+                component:Info
+            },
+            {
+                path:'',
+                redirect:'/shop/goods'
+            },
+        ]
     },
     {
         path:'/',
