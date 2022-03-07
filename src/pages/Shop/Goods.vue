@@ -44,7 +44,7 @@
       </div>
       <!-- <ShopCart/> -->
     </div>
-    <!-- <Food :food="food" ref="food"/> -->
+    <Food :food="food" ref="food"/>
   </div>
 </template>
 
@@ -52,12 +52,18 @@
 <script type="text/ecmascript-6">
 import { mapState } from "vuex";
 import betterScroll from "@better-scroll/core"
+import Food from "@/components/Food/Food"
   export default {
       data() {
           return {
               scrollY:0,
-              tops:[]
+              tops:[],
+              food:{}
           }
+      },
+      name:'Goods',
+      components:{
+        Food
       },
       computed:{
           ...mapState(['goods']),
@@ -122,6 +128,10 @@ import betterScroll from "@better-scroll/core"
           const scrollY = this.tops[index]
           this.scrollY = scrollY
           this.rightScroll.scrollTo(0,-scrollY,200)
+        },
+        showFood(food){
+          this.food = food
+          this.$refs.food.toggleShow()
         }
       }
   }

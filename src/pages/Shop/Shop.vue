@@ -24,6 +24,7 @@ import ShopHeader from "@/components/ShopHeader/ShopHeader";
       components:{
           ShopHeader
       },
+      name:'Shop',
       mounted(){
         this.$store.dispatch("getShopGoods")
         this.$store.dispatch("getShopRatings")
