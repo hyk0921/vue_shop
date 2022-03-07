@@ -15,11 +15,11 @@
       </div>
       <div class="foods-wrapper" ref="right">
         <ul ref="rightUl">
-          <li class="food-list-hook" v-for="(good, index) in goods" :key="good.name">
+          <li class="food-list-hook" v-for="(good, index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
               <li class="food-item bottom-border-1px" v-for="(food, index) in good.foods" 
-                :key="food.name" @click="showFood(food)">
+                :key="index" @click="showFood(food)">
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon">
                 </div>
@@ -34,8 +34,7 @@
                     <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
-                    <!-- <CartControl :food="food"/> -->
-                    CartControl
+                    <CartControl :food="food"/>
                   </div>
                 </div>
               </li>
@@ -64,7 +63,13 @@ import betterScroll from "@better-scroll/core"
           ...mapState(['goods']),
           currentIndex(){
             const {scrollY,tops} = this
-            return tops.findIndex((item,index)=>this.scrollY>=item && this.scrollY<tops[index+1])
+            const index = tops.findIndex((item,index)=>scrollY>=item && scrollY<tops[index+1])
+            if(this.index !== index&&this.leftScroll){
+             const li = this.$refs.leftUl.children[index]
+             this.leftScroll.scrollToElement(li,300)
+            }
+            this.index = index
+            return index
           }
       },
       // mounted(){
@@ -112,6 +117,11 @@ import betterScroll from "@better-scroll/core"
             tops.push(top)
           });
           this.tops = tops
+        },
+        selectItem(index){
+          const scrollY = this.tops[index]
+          this.scrollY = scrollY
+          this.rightScroll.scrollTo(0,-scrollY,200)
         }
       }
   }

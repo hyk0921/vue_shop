@@ -1,5 +1,5 @@
 import { reqAddress,reqShops,reqCategorys,reqAutoLogin ,reqShopGoods,reqShopInfo,reqShopRatings} from "../api"
-import { RECEIVE_ADDRESS,RECEIVE_SHOPS,RECEIVE_CATEGORYS,RECEIVE_TOKEN,RECEIVE_USER ,RECEIVE_GOODS,RECEIVE_RATINGS,RECEIVE_INFO} from "./mutations-types"
+import { RECEIVE_ADDRESS,RECEIVE_SHOPS,RECEIVE_CATEGORYS,RECEIVE_TOKEN,RECEIVE_USER ,RECEIVE_GOODS,RECEIVE_RATINGS,RECEIVE_INFO,ADD_FOOD_COUNT,REDUCE_FOOD_COUNT} from "./mutations-types"
 export default {
     async getAddress({commit,state}){
         const {longitude,latitude} = state
@@ -64,6 +64,13 @@ export default {
         if(result.code === 0) {
             const info = result.data
             commit(RECEIVE_INFO,info)
+        }
+    },
+    updateFoodCount({commit},{isAdd,food}){
+        if(isAdd){
+            commit(ADD_FOOD_COUNT,food)
+        }else{
+            commit(REDUCE_FOOD_COUNT,food)
         }
     }
 }
