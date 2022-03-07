@@ -53,6 +53,7 @@
 import { mapState } from "vuex";
 import betterScroll from "@better-scroll/core"
 import Food from "@/components/Food/Food"
+import ShopCart from "@/components/ShopCart/ShopCart"
   export default {
       data() {
           return {
@@ -63,10 +64,13 @@ import Food from "@/components/Food/Food"
       },
       name:'Goods',
       components:{
-        Food
+        Food,
+        ShopCart
       },
       computed:{
-          ...mapState(['goods']),
+          ...mapState({
+            goods:state=>state.shop.goods
+          }),
           currentIndex(){
             const {scrollY,tops} = this
             const index = tops.findIndex((item,index)=>scrollY>=item && scrollY<tops[index+1])

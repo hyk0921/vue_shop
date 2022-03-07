@@ -12,7 +12,7 @@ instance.interceptors.request.use((config)=>{
     if(config.data instanceof Object){
         config.data = qs.stringify(config.data)
     }
-    const token = store.state.token
+    const token = store.state.user.token
     if(token){
         config.headers['Authorization'] = token
     }else {

@@ -92,7 +92,11 @@ import { mapState } from "vuex";
 import chunk from "lodash/chunk";
   export default {
     computed:{
-      ...mapState(["address","categorys","shops"]),
+      ...mapState({
+        address:state=>state.msite.address,
+        categorys:state=>state.msite.categorys,
+        shops:state=>state.msite.shops,
+      }),
       categorysArr(){
         const bigArr = []
         let smallArr = []
