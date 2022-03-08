@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import 'lib-flexible'
 import './validate'
-
+import VueLazyload from 'vue-lazyload'
 Vue.config.productionTip = false
 import router from "@/router"
 import Header from "@/components/Header/Header"
@@ -12,7 +12,11 @@ import store from "@/vuex/store"
 import * as API from "@/api"
 import { Button } from 'mint-ui';
 import i18n from './i18n'
+import loading from '@/common/images/loading.gif'
 import './mock/mockServe'
+Vue.use(VueLazyload, {
+  loading,  
+}) // 内部定义一个全局指令: lazy
 
 Vue.component(Button.name, Button);
 Vue.prototype.$API = API

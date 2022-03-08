@@ -9,14 +9,15 @@
 </template>
 
 <script type="text/ecmascript-6">
+import throttle from "lodash/throttle";
   export default {
       props:{
           food:Object
       },
       methods:{
-          updateFoodCount(isAdd){
+          updateFoodCount:throttle(function(isAdd){
               this.$store.dispatch("updateFoodCount",{isAdd,food:this.food})
-          }
+          },1000, {trailing: false})
       }
   }
 </script>
