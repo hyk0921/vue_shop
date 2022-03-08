@@ -42,7 +42,7 @@
           </li>
         </ul>
       </div>
-      <!-- <ShopCart/> -->
+      <ShopCart/>
     </div>
     <Food :food="food" ref="food"/>
   </div>
