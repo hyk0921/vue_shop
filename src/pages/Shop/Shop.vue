@@ -3,18 +3,18 @@
       <ShopHeader></ShopHeader>
       <div class="tab">
       <div class="tab-item">
-          <router-link to="/shop/goods" replace>点餐</router-link>
+          <router-link :to="`/shop/${id}/goods`" replace>点餐</router-link>
       </div>
       <div class="tab-item">
-          <router-link to="/shop/ratings" replace>评价</router-link>
+          <router-link :to="`/shop/${id}/ratings`" replace>评价</router-link>
       </div>
       <div class="tab-item">
-          <router-link to="/shop/info" replace>商家</router-link>
+          <router-link :to="`/shop/${id}/info`" replace>商家</router-link>
       </div>
       </div>
-      <keep-alive>
+      <!-- <keep-alive> -->
           <router-view />
-      </keep-alive>
+      <!-- </keep-alive> -->
   </div>
 </template>
 
@@ -25,11 +25,13 @@ import ShopHeader from "@/components/ShopHeader/ShopHeader";
           ShopHeader
       },
       name:'Shop',
+      props:['id'],
       mounted(){
-        this.$store.dispatch("getShopGoods")
-        this.$store.dispatch("getShopRatings")
-        this.$store.dispatch("getShopInfo")
-      }
+        // this.$store.dispatch("getShopGoods")
+        // this.$store.dispatch("getShopRatings")
+        // this.$store.dispatch("getShopInfo")
+        this.$store.dispatch("getShop",this.id)
+      },
   }
 </script>
 

@@ -69,7 +69,7 @@ import ShopCart from "@/components/ShopCart/ShopCart"
       },
       computed:{
           ...mapState({
-            goods:state=>state.shop.goods
+            goods:state=>state.shop.shop.goods || []
           }),
           currentIndex(){
             const {scrollY,tops} = this
@@ -82,11 +82,16 @@ import ShopCart from "@/components/ShopCart/ShopCart"
             return index
           }
       },
-      // mounted(){
-      //   this.initTops()
-      // },
+      mounted(){
+        if(this.goods.length>0){
+          console.log("mounted");
+          this.initTops()
+          this.initScroll()
+        }
+      },
       watch:{
         goods(){
+          console.log("watch");
           this.$nextTick(()=>{
             this.initTops()
             this.initScroll()
@@ -95,28 +100,34 @@ import ShopCart from "@/components/ShopCart/ShopCart"
       },
       methods:{
         initScroll(){
-            this.leftScroll = new betterScroll(this.$refs.left, {
-            click: true, // 分发click事件
-          })
-          // 右侧scroll对象
-          this.rightScroll = new betterScroll(this.$refs.right, {
-            click: true, // 分发click事件
-            probeType: 1  // 非实时 触摸
-            // probeType: 2  // 实时 触摸
-            // probeType: 3  // 实时 触摸/惯性/编码
-          })
+          // if(!this.leftScroll){
+                this.leftScroll = new betterScroll(this.$refs.left, {
+              click: true, // 分发click事件
+            })
+            // 右侧scroll对象
+            this.rightScroll = new betterScroll(this.$refs.right, {
+              click: true, // 分发click事件
+              probeType: 1  // 非实时 触摸
+              // probeType: 2  // 实时 触摸
+              // probeType: 3  // 实时 触摸/惯性/编码
+            })
 
-          // 绑定scroll监听
-          this.rightScroll.on('scroll', ({x, y}) => {
-            console.log('scroll()', x, y)
-            this.scrollY = Math.abs(y)
-          })
+            // 绑定scroll监听
+            this.rightScroll.on('scroll', ({x, y}) => {
+              console.log('scroll()', x, y)
+              this.scrollY = Math.abs(y)
+            })
 
-          // 绑定scrollEnd监听
-          this.rightScroll.on('scrollEnd', ({x, y}) => {
-            console.log('scrollEnd()', x, y)
-            this.scrollY = Math.abs(y)
-          })
+            // 绑定scrollEnd监听
+            this.rightScroll.on('scrollEnd', ({x, y}) => {
+              console.log('scrollEnd()', x, y)
+              this.scrollY = Math.abs(y)
+            })
+          // }else{
+          //   this.leftScroll.refresh()
+          //   this.rightScroll.refresh()
+          // }
+          
         },
         initTops(){
           const tops = []

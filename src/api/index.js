@@ -20,3 +20,5 @@ export const reqAutoLogin = ()=> ajax("/auto_login")
 export const reqShopGoods = ()=> ajax("/goods")
 export const reqShopRatings = ()=> ajax("/ratings")
 export const reqShopInfo = ()=> ajax("/info")
+// 获取指定shop
+export const reqShop = (id) => ajax('/shop/' + id)

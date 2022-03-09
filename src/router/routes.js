@@ -34,7 +34,8 @@ export default [
         component:Login
     },
     {
-        path:'/shop',
+        path:'/shop/:id',
+        props:route=>({id:route.params.id}),
         component:Shop,
         children:[
             {
@@ -51,7 +52,7 @@ export default [
             },
             {
                 path:'',
-                redirect:'/shop/goods'
+                redirect:'goods'
             },
         ]
     },
