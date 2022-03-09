@@ -3,7 +3,7 @@
     <nav class="shop-nav"
          :style="{backgroundImage: `url(${info.bgImg})`}">
       <a class="back" @click="$router.back()">
-        <i class="iconfont icon-arrow_left"/>
+        <i class="iconfont icon-zuojiantou"/>
       </a>
     </nav>
     <div class="shop-content" @click="isShowBulletin=true">
@@ -152,7 +152,7 @@
         position: absolute
         top: 10px
         left: 0
-        .icon-arrow_left
+        .icon-zuojiantou
           display: block
           padding: 5px
           font-size: 20px

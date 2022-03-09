@@ -20,6 +20,8 @@
 
 <script type="text/ecmascript-6">
 import ShopHeader from "@/components/ShopHeader/ShopHeader";
+import { mapState } from "vuex";
+import {saveCartFoods} from "@/utils";
   export default {
       components:{
           ShopHeader
@@ -31,7 +33,20 @@ import ShopHeader from "@/components/ShopHeader/ShopHeader";
         // this.$store.dispatch("getShopRatings")
         // this.$store.dispatch("getShopInfo")
         this.$store.dispatch("getShop",this.id)
+        window.addEventListener('unload',()=>{
+          const {id,shop:{cartFoods}} = this
+          saveCartFoods(id,cartFoods)
+        })
       },
+      computed:{
+        ...mapState({
+          shop:state=>state.shop
+        })
+      },
+      beforeDestroy(){
+        const {id,shop:{cartFoods}} = this
+        saveCartFoods(id,cartFoods)
+      }
   }
 </script>
 

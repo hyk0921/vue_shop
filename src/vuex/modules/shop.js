@@ -1,6 +1,7 @@
 import {reqShopGoods,reqShopInfo,reqShopRatings,reqShop} from "@/api"
 import {RECEIVE_GOODS,RECEIVE_RATINGS,RECEIVE_INFO,ADD_FOOD_COUNT,REDUCE_FOOD_COUNT,CLEAR_CART,RECEIVE_SHOP} from "../mutations-types"
 import Vue from "vue";
+import { getCartFoods } from "@/utils";
 export default {
     state:{
         // goods:[],
@@ -47,7 +48,8 @@ export default {
           const result = await reqShop(id)
           if(result.code === 0){
             const shop = result.data
-            commit(RECEIVE_SHOP,{shop})
+            const cartFoods = getCartFoods(shop)
+            commit(RECEIVE_SHOP,{shop,cartFoods})
           }
         }
     },
