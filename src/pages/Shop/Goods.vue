@@ -100,7 +100,7 @@ import ShopCart from "@/components/ShopCart/ShopCart"
       },
       methods:{
         initScroll(){
-          // if(!this.leftScroll){
+          if(!this.leftScroll){
                 this.leftScroll = new betterScroll(this.$refs.left, {
               click: true, // 分发click事件
             })
@@ -123,10 +123,10 @@ import ShopCart from "@/components/ShopCart/ShopCart"
               console.log('scrollEnd()', x, y)
               this.scrollY = Math.abs(y)
             })
-          // }else{
-          //   this.leftScroll.refresh()
-          //   this.rightScroll.refresh()
-          // }
+          }else{
+            this.leftScroll.refresh()
+            this.rightScroll.refresh()
+          }
           
         },
         initTops(){
