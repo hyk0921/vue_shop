@@ -85,6 +85,16 @@ import {Toast,MessageBox} from "mint-ui"
         return /^1\d{10}$/.test(this.phone)
       }
     },
+    beforeRouteEnter(to,from,next){
+      next((component)=>{
+        const token = component.$store.state.user.token
+        if(token){
+          next('/profile')
+        }else {
+          next()
+        }
+      })
+    },
     methods:{
       inputClick(ele){
         this.$nextTick(()=>{

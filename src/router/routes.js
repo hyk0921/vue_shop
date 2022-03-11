@@ -1,7 +1,11 @@
-import MSite from "@/pages/MSite/MSite"
-import Order from "@/pages/Order/Order"
-import Profile from "@/pages/Profile/Profile"
-import Search from "@/pages/Search/Search"
+// import MSite from "@/pages/MSite/MSite"
+// import Order from "@/pages/Order/Order"
+// import Profile from "@/pages/Profile/Profile"
+// import Search from "@/pages/Search/Search"
+const MSite = ()=> import('@/pages/MSite/MSite')
+const Order = ()=> import('@/pages/Order/Order')
+const Profile = ()=> import('@/pages/Profile/Profile')
+const Search = ()=> import('@/pages/Search/Search')
 import Login from "@/pages/Login/Login"
 import Shop from "@/pages/Shop/Shop"
 import Goods from "@/pages/Shop/Goods"
@@ -35,6 +39,7 @@ export default [
     },
     {
         path:'/shop/:id',
+        name:'shop',
         props:route=>({id:route.params.id}),
         component:Shop,
         children:[
